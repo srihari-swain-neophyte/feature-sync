@@ -1,1 +1,1 @@
-print('hello world from test')
+print('hello world from test with sync')
