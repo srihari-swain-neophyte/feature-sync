@@ -25,7 +25,7 @@ jobs:
 
       - name: Copy test.py from testdev
         run: |
-          git checkout origin/testdev -- test.py  # Explicitly reference the remote branch
+          git checkout origin/testdev  # Explicitly reference the remote branch
           git add test.py
           git commit -m "Updated test.py from testdev"
           git push origin main
