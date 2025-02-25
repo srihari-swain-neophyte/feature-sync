@@ -3,7 +3,7 @@ name: Sync test.py from testdev to main
 on:
   push:
     branches:
-      - testdev  # Trigger when test.py is updated in testdev
+      - testdev
   workflow_dispatch:  # Enables manual trigger from GitHub Actions
 
 jobs:
@@ -13,22 +13,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensure full history is available
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          fetch-depth: 0  # Fetch full history to ensure all branches are available
 
       - name: Fetch All Branches
-        run: git fetch --all
+        run: |
+          git fetch origin testdev  # Ensure we fetch testdev branch
+          git branch -a  # Debugging: Check if testdev exists
 
       - name: Checkout main Branch
         run: git checkout main
 
       - name: Copy test.py from testdev
         run: |
-          git checkout testdev -- test.py
+          git checkout origin/testdev -- test.py  # Explicitly reference the remote branch
           git add test.py
           git commit -m "Updated test.py from testdev"
           git push origin main
