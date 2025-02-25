@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - testdev
-  workflow_dispatch:  # Enables manual trigger from GitHub Actions
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   sync-file:
@@ -13,19 +13,28 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch full history to ensure all branches are available
+          fetch-depth: 0  # Ensure full history is available
 
       - name: Fetch All Branches
         run: |
-          git fetch origin testdev  # Ensure we fetch testdev branch
-          git branch -a  # Debugging: Check if testdev exists
+          git fetch --all  # Ensure all remote branches are available
+          git branch -a  # Debugging step: Check if testdev exists
+
+      - name: Configure Git User Identity
+        run: |
+          git config --global user.name "srihari-swain"
+          git config --global user.email "srihari.swain@neophyte.ai"
+
+      - name: Checkout testdev Branch Properly
+        run: |
+          git checkout -b testdev origin/testdev  # Create a local testdev branch
 
       - name: Checkout main Branch
         run: git checkout main
 
       - name: Copy test.py from testdev
         run: |
-          git checkout origin/testdev  # Explicitly reference the remote branch
+          git checkout testdev -- test.py  # Get test.py from testdev branch
           git add test.py
           git commit -m "Updated test.py from testdev"
           git push origin main
