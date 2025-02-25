@@ -3,7 +3,8 @@ name: Sync test.py from testdev to main
 on:
   push:
     branches:
-      - testdev  # Make sure this branch exists and matches exactly
+      - testdev  # Trigger when test.py is updated in testdev
+  workflow_dispatch:  # Enables manual trigger from GitHub Actions
 
 jobs:
   sync-file:
@@ -31,4 +32,3 @@ jobs:
           git add test.py
           git commit -m "Updated test.py from testdev"
           git push origin main
-
