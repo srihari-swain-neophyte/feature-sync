@@ -22,7 +22,7 @@ jobs:
 
       - name: Configure Git User Identity
         run: |
-          git config --global user.name "srihari-swain"
+          git config --global user.name "srihari-swain-neophyte"
           git config --global user.email "srihari.swain@neophyte.ai"
 
       - name: Checkout testdev Branch Properly
